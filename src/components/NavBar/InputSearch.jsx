@@ -1,23 +1,30 @@
 "use client";
 
-import {MagnifyingGlass} from "@phosphor-icons/react";
+import { MagnifyingGlass } from "@phosphor-icons/react";
 import { useRouter } from "next/navigation";
-import {useRef} from "react";
+import { useRef } from "react";
 
 const InputSearch = () => {
-    const searchRef = useRef()
-    const router = useRouter()
+    const searchRef = useRef();
+    const router = useRouter();
+
     const handleSearch = (event) => {
         event.preventDefault();
-        const keyword = searchRef.current.value
+
+        // Mengambil nilai dari input
+        const keyword = searchRef.current.value.trim();
 
         if (!keyword) {
             alert("Please enter a search term.");
             return;
         }
 
-        router.push(`/search/${keyword}`)
-    }
+        // Mengganti spasi dengan tanda "-"
+        const formattedKeyword = keyword.replace(/\s+/g, "-");
+
+        // Navigasi ke halaman dengan URL yang sudah diformat
+        router.push(`/search/${formattedKeyword}`);
+    };
 
     return (
         <form onSubmit={handleSearch} className="relative md:w-64 w-full">
@@ -28,7 +35,7 @@ const InputSearch = () => {
             />
 
             <button
-                type="submit"  // This makes the button trigger the form submission
+                type="submit"
                 className="absolute top-1/2 left-2 transform -translate-y-1/2 text-gray-500 hover:text-blue-500 focus:outline-none"
             >
                 <MagnifyingGlass size={24} />
