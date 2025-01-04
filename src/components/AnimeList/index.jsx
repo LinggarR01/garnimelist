@@ -16,7 +16,7 @@ const AnimeList = ({ api }) => {
                 return (
                     <Link
                         key={anime.mal_id}  // Tambahkan key unik untuk setiap elemen dalam list
-                        href={`/${anime.mal_id}`}
+                        href={`/anime/${anime.mal_id}`}
                         className="cursor-pointer hover:text-white transition-all"
                     >
                         <Image
