@@ -1,13 +1,16 @@
 "use client"
-import { useEffect, useState } from 'react';
+import Image from 'next/image';
+import {useEffect, useState} from 'react';
 
-const Page = ({ params: { id } }) => {
+const Page = ({params: {
+        id
+    }}) => {
     const [anime, setAnime] = useState({data: []});
-    
-    useEffect( () => {
+
+    useEffect(() => {
         fetchData()
     }, [id])
-    
+
     const fetchData = async () => {
         try {
             // fetch data top Anime
@@ -21,25 +24,44 @@ const Page = ({ params: { id } }) => {
         }
     }
 
-    // useEffect(() => {
-    //     const fetchAnime = async () => {
-    //         try {
-    //             const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/anime/${id}`);
-    //             const data = await response.json();
-    //             setAnime(data);
-    //         } catch (error) {
-    //             console.error('Failed to fetch anime data:', error);
-    //         }
-    //     };
-    //     fetchAnime();
-    // }, [id]);
-
     return (
-        <>
-            <div>
-                <h3>{anime.data.title}</h3>
+        <div className="p-16 min-h-screen">
+            <h1 className="font-bold text-4xl mb-2 md:text-left text-center">{anime?.data?.title}</h1>
+            <h2 className="font-semibold text-xl text-gray-600 mb-4 md:text-left text-center">
+                ({anime?.data?.title_japanese})
+            </h2>
+            <div className="flex flex-col lg:flex-row gap-8">
+                {/* Anime Image and Details */}
+                <div className="lg:w-1/3  p-6 rounded-lg ">
+                    <Image
+                        src={anime?.data?.images?.webp?.image_url || '/placeholder.jpg'}
+                        alt={anime?.data?.title || 'Loading...'}
+                        width={350}
+                        height={350}
+                        className="w-full h-auto rounded-lg shadow-md"
+                    />
+                    <h3 className="font-bold text-lg mt-4">Details</h3>
+                    <p><strong>Aired:</strong> {anime?.data?.aired?.string || 'N/A'}</p>
+                    <p><strong>Status:</strong> {anime?.data?.status || 'N/A'}</p>
+                    <p><strong>Score:</strong> {anime?.data?.score || 'N/A'}</p>
+                    <p><strong>Type:</strong> {anime?.data?.type || 'N/A'}</p>
+                    <p><strong>Episodes:</strong> {anime?.data?.episodes || 'N/A'}</p>
+                    <p><strong>Genres:</strong> {anime?.data?.genres?.map(genre => genre.name).join(', ') || 'N/A'}</p>
+                    <p><strong>Rank:</strong> {anime?.data?.rank || 'N/A'}</p>
+                    <p><strong>Popularity:</strong> {anime?.data?.popularity || 'N/A'}</p>
+                    <p><strong>Source:</strong> {anime?.data?.source || 'N/A'}</p>
+                </div>
+
+                {/* Anime Description */}
+                <div className="lg:w-2/3  p-6 rounded-lg shadow-lg">
+                    <h1 className="font-bold text-4xl mb-2">Synopsis</h1>
+                    
+                    <p className="text-justify text-lg leading-relaxed">
+                        {anime?.data?.synopsis || 'No synopsis available.'}
+                    </p>
+                </div>
             </div>
-        </>
+        </div>
     );
 };
 
