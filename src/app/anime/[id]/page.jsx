@@ -25,13 +25,14 @@ const Page = ({params: {id}}) => {
 
     return (
         <div className="p-16 min-h-screen">
-            <h1 className="font-bold text-4xl mb-2 md:text-left text-center">{anime?.data?.title}</h1>
-            <h2 className="font-semibold text-xl text-gray-600 mb-4 md:text-left text-center">
-                ({anime?.data?.title_japanese})
-            </h2>
+            
             <div className="flex flex-col lg:flex-row gap-8">
                 {/* Anime Image and Details */}
                 <div className="lg:w-1/3  p-6 rounded-lg justify justify-items-center">
+                <h1 className="font-bold text-4xl mb-2 md:text-left text-center">{anime?.data?.title}</h1>
+                <h2 className="font-semibold text-xl text-gray-600 mb-4 md:text-left text-center">
+                    ({anime?.data?.title_japanese})
+                </h2>
                     <Image
                         src={anime?.data?.images?.webp?.image_url}
                         alt={anime?.data?.title || 'Loading...'}
@@ -41,7 +42,7 @@ const Page = ({params: {id}}) => {
                     />
                     <h3 className="font-bold text-lg mt-4">Details</h3>
                     {/* anime?.data?.aired? Optional chaining harus ditulis dalam satu baris atau menggunakan tanda kurung untuk pemisahan baris. */}
-                    <div>
+                    <div>   
                         <p><strong>Aired:</strong> {anime?.data?.aired?.string || 'N/A'}</p>
                         <p><strong>Status:</strong> {anime?.data?.status || 'N/A'}</p>
                         <p><strong>Score:</strong> {anime?.data?.score || 'N/A'}</p>
@@ -53,19 +54,24 @@ const Page = ({params: {id}}) => {
                         <p><strong>Source:</strong> {anime?.data?.source || 'N/A'}</p>
                     </div>
                     <h3 className="font-bold text-lg mt-6">Trailer</h3>
-                    {anime?.data?.trailer?.url ? (
-                        <iframe
-                            width="100%"
-                            height="315"
-                            src={anime.data.trailer.url}
+                    <div className="flex justify-center items-center bg-gray-900 rounded-lg shadow-lg">
+                        {anime?.data?.trailer?.url ? (
+                          <iframe
+                            className="rounded-lg shadow-xl"
+                            src={`https://www.youtube.com/embed/${new URL(anime.data.trailer.url).searchParams.get("v")}`}
                             title="Anime Trailer"
+                            frameBorder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                             allowFullScreen
-                            className="mt-4 rounded-lg"
-                        ></iframe>
-                    ) : (
-                        <p>No trailer available</p>
-                    )}
+                          ></iframe>
+                        ) : (
+                          <div className="text-center text-white">
+                            <p className="text-xl font-semibold">Trailer not available</p>
+                            <p className="text-sm text-gray-400">Check back later for updates</p>
+                          </div>
+                        )}
+                    </div>
+
                 </div>
 
                 {/* Anime Description */}
@@ -76,7 +82,7 @@ const Page = ({params: {id}}) => {
                         {anime?.data?.synopsis || 'No synopsis available.'}
                     </p>
                 </div>
-                <VideoPlayer youtubeID={anime?.data?.trailer?.url ? new URL(anime.data.trailer.url).searchParams.get("v") : null}/>
+                
             </div>
         </div>
     );

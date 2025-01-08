@@ -17,7 +17,7 @@ const AnimeList = ({ api }) => {
                     <Link
                         key={anime.mal_id}  // Tambahkan key unik untuk setiap elemen dalam list
                         href={`/anime/${anime.mal_id}`}
-                        className="cursor-pointer hover:text-white transition-all"
+                        className="cursor-pointer hover:text-gray-300 transition-all"
                     >
                         <Image
                             src={anime.images.webp.image_url}
@@ -26,7 +26,7 @@ const AnimeList = ({ api }) => {
                             height={350}
                             className="w-full max-h-64"
                         />
-                        <h3 className="font-bold md:text-xl text-lg p-8">{anime.title}</h3>
+                        <h3 className="font-bold md:text-xl text-lg p-8 text-center">{anime.title}</h3>
                     </Link>
                 );
             })}
