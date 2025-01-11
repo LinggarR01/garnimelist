@@ -62,7 +62,7 @@ const Page = () => {
               </tbody>
             </table>
           </section>
-          <HeaderMenu title={'Recommendation'}/>
+          
         </div>
       );
 }
