@@ -4,6 +4,7 @@ import HeaderMenu from '@/components/Utilities/HeaderMenu';
 import Image from 'next/image';
 import {useEffect, useState} from 'react';
 import { useAnimeResource } from '@/libs/api-libs';
+import { BookOpenUser } from '@phosphor-icons/react';
 
 const Page = ({params: {id}}) => {
     const [anime, setAnime] = useState({data: []});
@@ -51,8 +52,8 @@ const Page = ({params: {id}}) => {
             <div className="flex flex-col lg:flex-row gap-8">
                 {/* Anime Image and Details */}
                 <div className="lg:w-1/3  p-6 rounded-lg justify justify-items-center">
-                <h1 className="font-bold text-4xl mb-2 md:text-left text-center">{anime?.data?.title}</h1>
-                <h2 className="font-semibold text-xl text-gray-600 mb-4 md:text-left text-center">
+                <h1 className="font-bold text-4xl mb-2  text-center">{anime?.data?.title}</h1>
+                <h2 className="font-semibold text-xl text-gray-600 mb-4  text-center">
                     ({anime?.data?.title_japanese})
                 </h2>
                     <Image
@@ -98,27 +99,35 @@ const Page = ({params: {id}}) => {
 
                 {/* Anime Description */}
                 <div className="lg:w-2/3  p-6 rounded-lg shadow-lg">
-                    <h1 className="font-bold text-2xl mb-2">Synopsis</h1>
+                    <h1 className="flex font-bold text-2xl my-2"><BookOpenUser size={32} />Synopsis</h1>
                     
                     <p className="text-justify text-lg leading-relaxed">
                         {anime?.data?.synopsis || 'No synopsis available.'}
                     </p>
                 </div> 
-                <div className="lg:w-2/3  p-6 rounded-lg shadow-lg">
+                <div className="lg:w-2/3 justify items-center rounded-lg shadow-lg">
                     <h1 className="font-bold text-2xl mb-2">Characters</h1>
-                        {chara && chara.data && chara.data.length > 0 && (
-                        <ul>
-                            {chara.data.map((charaMember, index) => (
-                              <li key={index}>
-                                <img
-                                  src={charaMember.character.images.jpg.image_url} // Use JPG image
-                                  alt={charaMember.character.name}
-                                  />
-                                  <h3>{charaMember.character.name}</h3> {/* Access character name */}
-                              </li>
-                            ))}
-                        </ul>
-                    )}
+                        <div>
+                            {chara && chara.data && chara.data.length > 0 && (
+                                <ul className='flex flex-wrap gap-4'>
+                                    {chara.data.slice(0,30).map((charaMember, index) => (
+                                      <li key={index} className='text-center space-y-2 relative group'>
+                                        <img
+                                          src={charaMember.character.images.jpg.image_url} // Use JPG image
+                                          alt={charaMember.character.name}
+                                          className='w-16 mx-auto '
+                                          />
+                                        
+                                        <div className='absolute bottom-0 left-0 w-full bg-black bg-opacity-75 text-white text-xs p-1 opacity-0 transform translate-y-2 transition-all duration-500 ease-out group-hover:opacity-100 group-hover:translate-y-0'>
+                                             {charaMember.character.name}
+                                        </div>
+                                      </li>
+                                      
+                                    ))}
+                                </ul>
+                             )}
+                        </div>
+                        
                 </div> 
             </div>
             
